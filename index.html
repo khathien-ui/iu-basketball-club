@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IU Basketball Club</title>
+<meta name="description" content="Official website of the IU Basketball Club — International University, VNU-HCM. Portal, member management, events and tournaments.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23ff5c1a'/%3E%3Cpath d='M2 16h28M16 2v28M6 6c6 6 14 6 20 0M6 26c6-6 14-6 20 0' stroke='%23131313' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#home" class="nav__logo">
+      <span class="nav__logo-badge"><img src="assets/logo.png" alt="IU Basketball Club logo"></span>
+      IU Basketball Club
+    </a>
+
+    <nav class="nav__links" id="navLinks">
+      <a href="#about">About Us</a>
+      <a href="#board">Executive Board</a>
+      <a href="#events">Events</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#news">News</a>
+      <a href="#contact">Contact</a>
+      <div class="nav__actions nav__actions--mobile">
+        <a href="#" class="btn btn--ghost">Member Login</a>
+        <a href="#events" class="btn btn--solid">Join the Club</a>
+      </div>
+    </nav>
+
+    <div class="nav__actions">
+      <a href="#" class="btn btn--ghost">Member Login</a>
+      <a href="#events" class="btn btn--solid">Join the Club</a>
+    </div>
+
+    <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__glow" aria-hidden="true"></div>
+    <div class="hero__grid" aria-hidden="true"></div>
+
+    <div class="section-inner hero__inner">
+      <div class="hero__emblem">
+        <img src="assets/logo.png" alt="IU Basketball Club emblem">
+      </div>
+      <div class="hero__divider" aria-hidden="true"></div>
+      <p class="eyebrow">International University · VNU-HCM</p>
+      <h1 class="hero__title">Built for the team.<br>Run like a club.</h1>
+      <p class="hero__subtitle">
+        Ngôi nhà chính thức của CLB Bóng rổ IU — tin tức, tuyển quân, giải đấu
+        và quản lý thành viên cho mọi cầu thủ trong đội hình.
+      </p>
+      <div class="hero__cta">
+        <a href="#events" class="btn btn--solid btn--lg">View Upcoming Events</a>
+        <a href="#about" class="btn btn--ghost btn--lg">About the Club</a>
+      </div>
+
+      <div class="hero__panel" role="group" aria-label="Upcoming events preview">
+        <div class="hero__panel-head">
+          <span class="dot" aria-hidden="true"></span>
+          <span>upcoming_events.log</span>
+        </div>
+        <ul class="hero__panel-list">
+          <li>
+            <span class="mono">TBA</span>
+            <span>Tuyển quân mùa Thu — Mở đăng ký</span>
+            <span class="tag">TRYOUTS</span>
+          </li>
+          <li>
+            <span class="mono">TBA</span>
+            <span>Trận mở màn mùa giải vs. TBD</span>
+            <span class="tag">MATCH</span>
+          </li>
+          <li>
+            <span class="mono">TBA</span>
+            <span>Giải đấu 3x3 IU</span>
+            <span class="tag">TOURNAMENT</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="section-inner">
+      <p class="eyebrow">Nền tảng của CLB</p>
+      <h2 class="section__title">One platform, three pillars.</h2>
+
+      <div class="grid-3">
+        <article class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Portal</h3>
+          <p>Cổng thông tin công khai của CLB — chúng tôi là ai, ban điều hành, và mọi thông báo quan trọng.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.25" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 20c1-3.6 4-5.5 7.5-5.5s6.5 1.9 7.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Member Management</h3>
+          <p>Đội hình, vai trò và hồ sơ của cầu thủ lẫn ban điều hành — với khu vực riêng dành cho thành viên.</p>
+        </article>
+
+        <article class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 9.5h17M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Events &amp; Media</h3>
+          <p>Tổ chức giải đấu, đăng ký tuyển quân, và thư viện ảnh lưu giữ mọi ngày thi đấu.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section section--split" id="about">
+    <div class="section-inner">
+      <div class="split">
+        <div class="split__text">
+          <p class="eyebrow">Về câu lạc bộ</p>
+          <h2 class="section__title">One court, one roster, one purpose.</h2>
+          <p class="split__body">
+            CLB Bóng rổ IU là nơi hội tụ của cầu thủ, ban tổ chức và người hâm mộ
+            đến từ Trường Đại học Quốc tế — ĐHQG TP.HCM. Từ những buổi tuyển quân
+            mở đến các giải đấu trong khuôn viên trường, CLB tồn tại để mọi sinh viên
+            đều có con đường bước lên sân và trở thành một phần của đội.
+          </p>
+          <a href="https://www.facebook.com/IUBASKETBALLL" target="_blank" rel="noopener" class="link-arrow">
+            Theo dõi CLB trên Facebook <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="split__stats">
+          <div class="stat">
+            <span class="stat__value mono">IU</span>
+            <span class="stat__label">Trường Đại học Quốc tế</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value mono">VNU-HCM</span>
+            <span class="stat__label">Đại học Quốc gia TP.HCM</span>
+          </div>
+          <div class="stat">
+            <span class="stat__value mono">HCMC</span>
+            <span class="stat__label">Hoạt động tại TP. Hồ Chí Minh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE BOARD teaser -->
+  <section class="section" id="board">
+    <div class="section-inner">
+      <p class="eyebrow">Ai vận hành</p>
+      <h2 class="section__title">Executive Board.</h2>
+      <p class="section__lede">Gặp gỡ những sinh viên đứng sau các buổi tuyển quân, giải đấu và mọi hoạt động của CLB.</p>
+
+      <div class="grid-4">
+        <article class="board-card">
+          <div class="board-card__avatar" aria-hidden="true"></div>
+          <h4>President</h4>
+          <p>Định hướng CLB &amp; đối ngoại</p>
+        </article>
+        <article class="board-card">
+          <div class="board-card__avatar" aria-hidden="true"></div>
+          <h4>Vice President</h4>
+          <p>Vận hành &amp; hậu cần</p>
+        </article>
+        <article class="board-card">
+          <div class="board-card__avatar" aria-hidden="true"></div>
+          <h4>Head Coach</h4>
+          <p>Huấn luyện &amp; tuyển chọn đội hình</p>
+        </article>
+        <article class="board-card">
+          <div class="board-card__avatar" aria-hidden="true"></div>
+          <h4>Media Lead</h4>
+          <p>Nội dung &amp; truyền thông</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="section" id="events">
+    <div class="section-inner">
+      <p class="eyebrow">Bước lên sân</p>
+      <h2 class="section__title">Upcoming Events.</h2>
+
+      <div class="events-list">
+        <article class="event-row">
+          <div class="event-row__date">
+            <span class="mono">TBA</span>
+          </div>
+          <div class="event-row__body">
+            <h4>Fall Tryouts</h4>
+            <p>Mở đăng ký cho toàn bộ sinh viên IU — không cần kinh nghiệm vẫn có thể thử sức.</p>
+          </div>
+          <span class="tag">TRYOUTS</span>
+          <a href="#contact" class="btn btn--ghost">Register</a>
+        </article>
+
+        <article class="event-row">
+          <div class="event-row__date">
+            <span class="mono">TBA</span>
+          </div>
+          <div class="event-row__body">
+            <h4>Season Opener</h4>
+            <p>Trận mở màn mùa giải — địa điểm và đối thủ sẽ được công bố sau.</p>
+          </div>
+          <span class="tag">MATCH</span>
+          <a href="#contact" class="btn btn--ghost">Details</a>
+        </article>
+
+        <article class="event-row">
+          <div class="event-row__date">
+            <span class="mono">TBA</span>
+          </div>
+          <div class="event-row__body">
+            <h4>IU 3x3 Tournament</h4>
+            <p>Giải 3x3 toàn trường, mở đăng ký cho các đội sinh viên.</p>
+          </div>
+          <span class="tag">TOURNAMENT</span>
+          <a href="#contact" class="btn btn--ghost">Register a Team</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY teaser -->
+  <section class="section" id="gallery">
+    <div class="section-inner">
+      <p class="eyebrow">Ngày thi đấu</p>
+      <h2 class="section__title">Gallery.</h2>
+      <p class="section__lede">Hình ảnh và khoảnh khắc nổi bật từ các buổi tuyển quân, tập luyện và giải đấu.</p>
+
+      <div class="gallery-grid">
+        <div class="gallery-tile gallery-tile--lg"></div>
+        <div class="gallery-tile"></div>
+        <div class="gallery-tile"></div>
+        <div class="gallery-tile"></div>
+        <div class="gallery-tile"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="section" id="news">
+    <div class="section-inner">
+      <p class="eyebrow">Mới nhất</p>
+      <h2 class="section__title">News.</h2>
+
+      <div class="grid-3">
+        <article class="card news-card">
+          <span class="mono news-card__date">TBA</span>
+          <h3>Sắp mở đăng ký tuyển quân</h3>
+          <p>Chi tiết cách đăng ký cho mùa giải sắp tới sẽ được cập nhật tại đây.</p>
+        </article>
+        <article class="card news-card">
+          <span class="mono news-card__date">TBA</span>
+          <h3>Công bố ban điều hành mới</h3>
+          <p>Gặp gỡ những sinh viên dẫn dắt CLB trong năm nay.</p>
+        </article>
+        <article class="card news-card">
+          <span class="mono news-card__date">TBA</span>
+          <h3>Lịch giải đấu đang được hoàn thiện</h3>
+          <p>Theo dõi trang Facebook của CLB để nhận thông tin mới nhất.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section" id="voices">
+    <div class="section-inner">
+      <p class="eyebrow">Từ sân đấu</p>
+      <h2 class="section__title">What members say.</h2>
+
+      <div class="grid-3">
+        <figure class="card quote-card">
+          <blockquote>
+            "Tham gia CLB là quyết định đúng đắn nhất năm nhất của mình.
+            Đến vì bóng rổ, ở lại vì một gia đình."
+          </blockquote>
+          <figcaption>
+            <span class="quote-card__avatar" aria-hidden="true"></span>
+            <span>
+              <strong>Thành viên CLB</strong>
+              <em>Placeholder — thay bằng cảm nhận thật</em>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="card quote-card">
+          <blockquote>
+            "Buổi tuyển quân rất thân thiện kể cả với người mới. Các anh chị
+            coach quan tâm nỗ lực trước, kỹ năng sau."
+          </blockquote>
+          <figcaption>
+            <span class="quote-card__avatar" aria-hidden="true"></span>
+            <span>
+              <strong>Tân binh</strong>
+              <em>Placeholder — thay bằng cảm nhận thật</em>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="card quote-card">
+          <blockquote>
+            "Cùng ban điều hành tổ chức giải 3x3 dạy mình nhiều điều hơn
+            bất kỳ lớp học nào."
+          </blockquote>
+          <figcaption>
+            <span class="quote-card__avatar" aria-hidden="true"></span>
+            <span>
+              <strong>Thành viên ban điều hành</strong>
+              <em>Placeholder — thay bằng cảm nhận thật</em>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta">
+    <div class="section-inner cta__inner">
+      <h2 class="cta__title">Ready to play for IU?</h2>
+      <p class="cta__subtitle">Tuyển quân mở cho mọi sinh viên. Không cần kinh nghiệm — chỉ cần bạn xuất hiện.</p>
+      <div class="hero__cta">
+        <a href="#contact" class="btn btn--solid btn--lg">Try Out for the Team</a>
+        <a href="#" class="btn btn--ghost btn--lg">Become a Member</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" id="contact">
+  <div class="section-inner footer__inner">
+    <div class="footer__brand">
+      <a href="#home" class="nav__logo">
+        <span class="nav__logo-badge"><img src="assets/logo.png" alt="IU Basketball Club logo"></span>
+        IU Basketball Club
+      </a>
+      <p>Trường Đại học Quốc tế — ĐHQG TP.HCM<br>TP. Hồ Chí Minh, Việt Nam</p>
+    </div>
+
+    <div class="footer__col">
+      <h5>Club</h5>
+      <a href="#about">About Us</a>
+      <a href="#board">Executive Board</a>
+      <a href="#">Members</a>
+    </div>
+
+    <div class="footer__col">
+      <h5>Explore</h5>
+      <a href="#events">Events</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#news">News</a>
+    </div>
+
+    <div class="footer__col">
+      <h5>Connect</h5>
+      <a href="https://www.facebook.com/IUBASKETBALLL" target="_blank" rel="noopener">Facebook</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+
+  <div class="section-inner footer__bottom">
+    <p>© 2026 CLB Bóng rổ IU — IU Basketball Club. Bảo lưu mọi quyền.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
