@@ -1,9 +1,4 @@
-const BOARD = [
-  { role: "President", desc: "Định hướng CLB & đối ngoại" },
-  { role: "Vice President", desc: "Vận hành & hậu cần" },
-  { role: "Head Coach", desc: "Huấn luyện & tuyển chọn đội hình" },
-  { role: "Media Lead", desc: "Nội dung & truyền thông" },
-];
+import { board } from "@/data/board";
 
 export default function ExecutiveBoard() {
   return (
@@ -16,7 +11,7 @@ export default function ExecutiveBoard() {
         </p>
 
         <div className="grid-4">
-          {BOARD.map(({ role, desc }) => (
+          {board.map(({ role, desc }) => (
             <article className="board-card" key={role}>
               <div className="board-card__avatar" aria-hidden="true"></div>
               <h4>{role}</h4>

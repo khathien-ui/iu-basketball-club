@@ -1,3 +1,5 @@
+import { heroEvents } from "@/data/events";
+
 export default function Hero() {
   return (
     <section className="hero">
@@ -28,21 +30,13 @@ export default function Hero() {
             <span>upcoming_events.log</span>
           </div>
           <ul className="hero__panel-list">
-            <li>
-              <span className="mono">TBA</span>
-              <span>Tuyển quân mùa Thu — Mở đăng ký</span>
-              <span className="tag">TRYOUTS</span>
-            </li>
-            <li>
-              <span className="mono">TBA</span>
-              <span>Trận mở màn mùa giải vs. TBD</span>
-              <span className="tag">MATCH</span>
-            </li>
-            <li>
-              <span className="mono">TBA</span>
-              <span>Giải đấu 3x3 IU</span>
-              <span className="tag">TOURNAMENT</span>
-            </li>
+            {heroEvents.map(({ date, label, tag }) => (
+              <li key={label}>
+                <span className="mono">{date}</span>
+                <span>{label}</span>
+                <span className="tag">{tag}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
