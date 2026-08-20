@@ -2,6 +2,8 @@
 
 Website chính thức cho **CLB Bóng rổ IU (IU Basketball Club)** — Trường Đại học Quốc tế, ĐHQG TP.HCM. Design tham chiếu resend.com: tối giản, hiện đại, chuyên nghiệp.
 
+**Trạng thái hiện tại**: đã migrate sang **Next.js 14 App Router + TypeScript** (`app/` + `components/`), giữ nguyên 100% design/nội dung từ prototype tĩnh. Chạy dev bằng `npm run dev` (port 3000). Chi tiết ở rule `tech-stack.md`.
+
 Toàn bộ hướng dẫn chi tiết đã được tách thành rules theo chủ đề trong `.claude/rules/`:
 
 | Rule | Chủ đề | Phạm vi load |
