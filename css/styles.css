@@ -184,6 +184,27 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero__bg-img {
+  object-fit: cover;
+  object-position: center;
+}
+.hero__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(18, 18, 20, 0.72) 0%,
+    rgba(18, 18, 20, 0.6) 40%,
+    rgba(18, 18, 20, 0.78) 72%,
+    var(--bg) 100%
+  );
+}
+
 .hero__glow {
   position: absolute;
   top: -180px; left: 50%;

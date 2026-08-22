@@ -1,8 +1,20 @@
+import Image from "next/image";
 import { heroEvents } from "@/data/events";
 
 export default function Hero() {
   return (
     <section className="hero">
+      <div className="hero__bg" aria-hidden="true">
+        <Image
+          src="/images/hero-team.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="hero__bg-img"
+        />
+        <div className="hero__bg-overlay"></div>
+      </div>
       <div className="hero__glow" aria-hidden="true"></div>
       <div className="hero__grid" aria-hidden="true"></div>
 
