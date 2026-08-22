@@ -4,36 +4,36 @@ import { heroEvents } from "@/data/events";
 export default function Hero() {
   return (
     <section className="hero">
-      <div className="hero__bg" aria-hidden="true">
-        <Image
-          src="/images/hero-team.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="hero__bg-img"
-        />
-        <div className="hero__bg-overlay"></div>
-      </div>
-      <div className="hero__glow" aria-hidden="true"></div>
-      <div className="hero__grid" aria-hidden="true"></div>
+      <div className="hero__wrap">
+        <div className="hero__frame">
+          <Image
+            src="/images/hero-team.jpg"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1250px) 100vw, 1250px"
+            className="hero__bg-img"
+          />
+          <div className="hero__bg-overlay" aria-hidden="true"></div>
 
-      <div className="section-inner hero__inner">
-        <div className="hero__emblem">
-          <img src="/assets/logo.png" alt="IU Basketball Club emblem" />
-        </div>
-        <div className="hero__divider" aria-hidden="true"></div>
-        <p className="eyebrow">International University · VNU-HCM</p>
-        <h1 className="hero__title">
-          Built for the team.<br />Run like a club.
-        </h1>
-        <p className="hero__subtitle">
-          Ngôi nhà chính thức của CLB Bóng rổ IU — tin tức, tuyển quân, giải đấu
-          và quản lý thành viên cho mọi cầu thủ trong đội hình.
-        </p>
-        <div className="hero__cta">
-          <a href="#events" className="btn btn--solid btn--lg">View Upcoming Events</a>
-          <a href="#about" className="btn btn--ghost btn--lg">About the Club</a>
+          <div className="hero__content">
+            <div className="hero__emblem">
+              <img src="/assets/logo.png" alt="IU Basketball Club emblem" />
+            </div>
+            <div className="hero__divider" aria-hidden="true"></div>
+            <p className="eyebrow">International University · VNU-HCM</p>
+            <h1 className="hero__title">
+              Built for the team.<br />Run like a club.
+            </h1>
+            <p className="hero__subtitle">
+              Ngôi nhà chính thức của CLB Bóng rổ IU — tin tức, tuyển quân, giải đấu
+              và quản lý thành viên cho mọi cầu thủ trong đội hình.
+            </p>
+            <div className="hero__cta">
+              <a href="#events" className="btn btn--solid btn--lg">View Upcoming Events</a>
+              <a href="#about" className="btn btn--ghost btn--lg">About the Club</a>
+            </div>
+          </div>
         </div>
 
         <div className="hero__panel" role="group" aria-label="Upcoming events preview">
