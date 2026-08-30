@@ -15,11 +15,18 @@
 - Tách nội dung động ra `data/*.ts` (events, board, news, testimonials).
 - Chuẩn bị điểm nối để thay bằng Supabase query sau này.
 
+### ⚠️ BẢO MẬT BẮT BUỘC — chưa hoàn thành, KHÔNG ĐƯỢC BỎ QUA
+
+**Siết policy SELECT của bảng `recruits`.** Migration `001_recruits.sql` hiện cho **mọi authenticated user** đọc toàn bộ đơn đăng ký tuyển quân — dữ liệu này chứa email, số điện thoại và MSSV của sinh viên, nên bất kỳ thành viên thường nào đăng nhập cũng xem được toàn bộ thông tin cá nhân người khác.
+
+Phải đổi thành **chỉ role `admin` / `executive_board`** mới đọc được. Viết **migration `002`** ngay sau khi tạo bảng `profiles` (Giai đoạn 4) — không để trạng thái hiện tại tồn tại sau khi hệ thống có người dùng thật.
+
 ## Giai đoạn 4 — Supabase & thành viên
 
 - Kết nối Supabase (Postgres + Auth + Storage), RLS cho mọi bảng.
 - Đăng ký/đăng nhập, hồ sơ thành viên, phân quyền (admin / executive_board / member / guest).
 - Bật lại nút Member Login. Trang Members (public một phần, đầy đủ khi đăng nhập).
+- ⚠️ Ngay sau khi có bảng `profiles`: viết migration `002` siết policy SELECT của `recruits` (xem mục bảo mật bắt buộc ở Giai đoạn 3).
 
 ## Giai đoạn 5 — Sự kiện, tin tức & media
 
