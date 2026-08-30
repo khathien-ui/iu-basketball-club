@@ -501,6 +501,18 @@ a { color: inherit; text-decoration: none; }
 .event-row:last-child { border-bottom: none; }
 .event-row:hover { background: #1e1e22; }
 
+.event-row__action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.event-row__note {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
 .event-row__date { min-width: 56px; color: var(--text-faint); }
 .event-row__body { flex: 1; }
 .event-row__body h4 { font-size: 1rem; font-weight: 600; }

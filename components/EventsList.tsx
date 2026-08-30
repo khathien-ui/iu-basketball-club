@@ -8,7 +8,7 @@ export default function EventsList() {
         <h2 className="section__title">Upcoming Events.</h2>
 
         <div className="events-list">
-          {events.map(({ name, desc, tag, action, href, date }) => (
+          {events.map(({ name, desc, tag, action, href, external, note, date }) => (
             <article className="event-row" key={name}>
               <div className="event-row__date">
                 <span className="mono">{date}</span>
@@ -18,7 +18,16 @@ export default function EventsList() {
                 <p>{desc}</p>
               </div>
               <span className="tag">{tag}</span>
-              <a href={href} className="btn btn--ghost">{action}</a>
+              <div className="event-row__action">
+                <a
+                  href={href}
+                  className="btn btn--ghost"
+                  {...(external ? { target: "_blank", rel: "noopener" } : {})}
+                >
+                  {action}
+                </a>
+                {note && <span className="event-row__note">{note}</span>}
+              </div>
             </article>
           ))}
         </div>

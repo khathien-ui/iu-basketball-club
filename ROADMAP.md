@@ -31,6 +31,7 @@ Phải đổi thành **chỉ role `admin` / `executive_board`** mới đọc đ�
 ## Giai đoạn 5 — Sự kiện, tin tức & media
 
 - CRUD sự kiện + form đăng ký tuyển quân/giải đấu (`/events/[slug]/register`), duyệt đơn.
+- **Form đăng ký đội cho giải 3x3 (`/tournament-signup`)**: tên đội, đội trưởng, danh sách 3-5 thành viên kèm MSSV, bảng `teams` + `team_members` trong Supabase. Trong lúc chờ, nút "Register a Team" ở trang chủ tạm trỏ về fanpage kèm ghi chú "Đăng ký đội — sắp mở".
 - Tin tức và gallery quản lý qua dashboard, ảnh lưu Supabase Storage.
 - Deploy Vercel + domain chính thức.
 

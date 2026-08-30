@@ -1,11 +1,17 @@
 export type EventTag = "TRYOUTS" | "MATCH" | "TOURNAMENT";
 
+const FANPAGE = "https://www.facebook.com/IUBASKETBALLL";
+
 export interface ClubEvent {
   name: string;
   desc: string;
   tag: EventTag;
   action: string;
   href: string;
+  /** true = link ra ngoài, mở tab mới */
+  external?: boolean;
+  /** ghi chú nhỏ hiện dưới nút */
+  note?: string;
   date: string;
 }
 
@@ -24,7 +30,8 @@ export const events: ClubEvent[] = [
     desc: "Trận mở màn mùa giải — địa điểm và đối thủ sẽ được công bố sau.",
     tag: "MATCH",
     action: "Details",
-    href: "/#contact",
+    href: FANPAGE,
+    external: true,
     date: "TBA",
   },
   {
@@ -32,7 +39,9 @@ export const events: ClubEvent[] = [
     desc: "Giải 3x3 toàn trường, mở đăng ký cho các đội sinh viên.",
     tag: "TOURNAMENT",
     action: "Register a Team",
-    href: "/tryout",
+    href: FANPAGE,
+    external: true,
+    note: "Đăng ký đội — sắp mở",
     date: "TBA",
   },
 ];
