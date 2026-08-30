@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <header className={`nav${scrolled ? " is-scrolled" : ""}`} id="nav" ref={navRef}>
       <div className="nav__inner">
-        <a href="#home" className="nav__logo">
+        <a href="/" className="nav__logo">
           <span className="nav__logo-badge">
             <img src="/assets/logo.png" alt="IU Basketball Club logo" />
           </span>
@@ -27,19 +27,19 @@ export default function Navbar() {
         </a>
 
         <nav className={`nav__links${open ? " is-open" : ""}`} id="navLinks">
-          <a href="#about" onClick={close}>About Us</a>
-          <a href="#board" onClick={close}>Executive Board</a>
-          <a href="#events" onClick={close}>Events</a>
-          <a href="#gallery" onClick={close}>Gallery</a>
-          <a href="#news" onClick={close}>News</a>
-          <a href="#contact" onClick={close}>Contact</a>
+          <a href="/#about" onClick={close}>About Us</a>
+          <a href="/#board" onClick={close}>Executive Board</a>
+          <a href="/#events" onClick={close}>Events</a>
+          <a href="/#gallery" onClick={close}>Gallery</a>
+          <a href="/#news" onClick={close}>News</a>
+          <a href="/#contact" onClick={close}>Contact</a>
           <div className="nav__actions nav__actions--mobile">
-            <a href="#events" className="btn btn--solid" onClick={close}>Join the Club</a>
+            <a href="/#events" className="btn btn--solid" onClick={close}>Join the Club</a>
           </div>
         </nav>
 
         <div className="nav__actions">
-          <a href="#events" className="btn btn--solid">Join the Club</a>
+          <a href="/#events" className="btn btn--solid">Join the Club</a>
         </div>
 
         <button

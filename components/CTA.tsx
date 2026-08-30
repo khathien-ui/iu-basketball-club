@@ -7,7 +7,7 @@ export default function CTA() {
           Tuyển quân mở cho mọi sinh viên. Không cần kinh nghiệm — chỉ cần bạn xuất hiện.
         </p>
         <div className="hero__cta">
-          <a href="#contact" className="btn btn--solid btn--lg">Try Out for the Team</a>
+          <a href="/tryout" className="btn btn--solid btn--lg">Try Out for the Team</a>
           <a href="#" className="btn btn--ghost btn--lg">Become a Member</a>
         </div>
       </div>

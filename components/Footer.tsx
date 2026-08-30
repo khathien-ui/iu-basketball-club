@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="footer" id="contact">
       <div className="section-inner footer__inner">
         <div className="footer__brand">
-          <a href="#home" className="nav__logo">
+          <a href="/" className="nav__logo">
             <span className="nav__logo-badge">
               <img src="/assets/logo.png" alt="IU Basketball Club logo" />
             </span>
@@ -18,16 +18,16 @@ export default function Footer() {
 
         <div className="footer__col">
           <h5>Club</h5>
-          <a href="#about">About Us</a>
-          <a href="#board">Executive Board</a>
+          <a href="/#about">About Us</a>
+          <a href="/#board">Executive Board</a>
           <a href="#">Members</a>
         </div>
 
         <div className="footer__col">
           <h5>Explore</h5>
-          <a href="#events">Events</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#news">News</a>
+          <a href="/#events">Events</a>
+          <a href="/#gallery">Gallery</a>
+          <a href="/#news">News</a>
         </div>
 
         <div className="footer__col">
@@ -35,7 +35,7 @@ export default function Footer() {
           <a href="https://www.facebook.com/IUBASKETBALLL" target="_blank" rel="noopener">
             Facebook
           </a>
-          <a href="#contact">Contact</a>
+          <a href="/#contact">Contact</a>
         </div>
       </div>
 

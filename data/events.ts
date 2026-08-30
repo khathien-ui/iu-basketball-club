@@ -5,6 +5,7 @@ export interface ClubEvent {
   desc: string;
   tag: EventTag;
   action: string;
+  href: string;
   date: string;
 }
 
@@ -15,6 +16,7 @@ export const events: ClubEvent[] = [
     desc: "Mở đăng ký cho toàn bộ sinh viên IU — không cần kinh nghiệm vẫn có thể thử sức.",
     tag: "TRYOUTS",
     action: "Register",
+    href: "/tryout",
     date: "TBA",
   },
   {
@@ -22,6 +24,7 @@ export const events: ClubEvent[] = [
     desc: "Trận mở màn mùa giải — địa điểm và đối thủ sẽ được công bố sau.",
     tag: "MATCH",
     action: "Details",
+    href: "/#contact",
     date: "TBA",
   },
   {
@@ -29,6 +32,7 @@ export const events: ClubEvent[] = [
     desc: "Giải 3x3 toàn trường, mở đăng ký cho các đội sinh viên.",
     tag: "TOURNAMENT",
     action: "Register a Team",
+    href: "/tryout",
     date: "TBA",
   },
 ];
