@@ -3,4 +3,9 @@ node_modules/
 out/
 next-env.d.ts
 *.tsbuildinfo
+
+# Biến môi trường — KHÔNG BAO GIỜ commit file chứa key thật
+.env
+.env.local
 .env*.local
+!.env.example
