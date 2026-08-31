@@ -778,6 +778,126 @@ a { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
 }
 
+/* ============ Trang xác thực ============ */
+.auth-page { min-height: 70vh; }
+.auth-inner { max-width: 460px; text-align: center; }
+
+.auth-logo {
+  display: flex;
+  width: 72px; height: 72px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+.auth-logo img { width: 120%; height: 120%; flex-shrink: 0; object-fit: contain; }
+
+.auth-inner .section__lede { margin-bottom: 0; }
+
+.auth-card {
+  margin-top: 32px;
+  padding: 28px;
+  text-align: left;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.auth-card--center { text-align: center; align-items: center; }
+.auth-card--center h2 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.auth-card--center p { color: var(--text-dim); font-size: 0.9375rem; }
+.auth-card .form-submit { margin-top: 6px; }
+.auth-card .form-alert { margin-top: 0; }
+
+.auth-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.875rem;
+}
+.auth-links a { color: var(--accent); }
+.auth-links a:hover { text-decoration: underline; }
+
+/* ============ Menu người dùng trên navbar ============ */
+.user-menu { position: relative; }
+
+.user-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 5px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.user-menu__trigger:hover { border-color: var(--text-faint); background: var(--bg-raised); }
+
+.user-menu__avatar {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.user-menu__name {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-menu__caret { color: var(--text-faint); font-size: 0.75rem; }
+
+.user-menu__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  padding: 6px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+.user-menu__dropdown a,
+.user-menu__signout {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.user-menu__dropdown a:hover,
+.user-menu__signout:hover { background: #26262b; color: var(--text); }
+.user-menu__signout { border-top: 1px solid var(--border); border-radius: 0 0 7px 7px; margin-top: 4px; }
+
 /* ============ CTA ============ */
 .cta { text-align: center; position: relative; overflow: hidden; }
 .cta::before {
