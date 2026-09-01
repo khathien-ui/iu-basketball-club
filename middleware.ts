@@ -4,7 +4,14 @@ import { updateSession, redirectKeepingCookies } from "@/lib/supabase/middleware
 const STAFF_ROLES = ["admin", "executive_board"];
 
 /** Khu vực chỉ dành cho admin và executive_board. */
-const STAFF_PATHS = ["/dashboard/admin", "/dashboard/recruits", "/dashboard/settings"];
+const STAFF_PATHS = [
+  "/dashboard/admin",
+  "/dashboard/recruits",
+  "/dashboard/settings",
+  "/dashboard/members",
+];
+
+const CHANGE_PASSWORD_PATH = "/dashboard/change-password";
 
 export async function middleware(request: NextRequest) {
   // Chưa cấu hình Supabase → cho qua, tránh middleware sập làm chết cả site.
@@ -31,14 +38,40 @@ export async function middleware(request: NextRequest) {
     return redirectKeepingCookies(url, response);
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, is_active, must_change_password")
+    .eq("id", user.id)
+    .single();
+
+  // Tài khoản bị khoá → đăng xuất và đá về trang đăng nhập.
+  if (profile && !profile.is_active) {
+    await supabase.auth.signOut();
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.search = "";
+    url.searchParams.set("error", "locked");
+    return redirectKeepingCookies(url, response);
+  }
+
+  // Đang dùng mật khẩu tạm → ép đổi mật khẩu trước, chặn mọi trang khác.
+  if (profile?.must_change_password && pathname !== CHANGE_PASSWORD_PATH) {
+    const url = request.nextUrl.clone();
+    url.pathname = CHANGE_PASSWORD_PATH;
+    url.search = "";
+    return redirectKeepingCookies(url, response);
+  }
+
+  // Đã đổi rồi mà còn vào trang đổi mật khẩu bắt buộc → về dashboard.
+  if (!profile?.must_change_password && pathname === CHANGE_PASSWORD_PATH) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/dashboard";
+    url.search = "";
+    return redirectKeepingCookies(url, response);
+  }
+
   // Khu vực quản trị: chỉ admin và executive_board.
   if (STAFF_PATHS.some((p) => pathname.startsWith(p))) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
     if (!profile || !STAFF_ROLES.includes(profile.role)) {
       const url = request.nextUrl.clone();
       url.pathname = "/dashboard";

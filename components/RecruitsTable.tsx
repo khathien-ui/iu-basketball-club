@@ -14,6 +14,7 @@ import {
   type RecruitStatus,
 } from "@/lib/recruits";
 import { exportRecruitsToExcel } from "@/lib/exportRecruits";
+import MemberFormDialog, { type CreateResult } from "./MemberFormDialog";
 
 interface Props {
   initialRecruits: Recruit[];
@@ -29,6 +30,8 @@ export default function RecruitsTable({ initialRecruits }: Props) {
   const [exporting, setExporting] = useState(false);
   const [exportError, setExportError] = useState<string | null>(null);
   const [detail, setDetail] = useState<Recruit | null>(null);
+  const [enrolling, setEnrolling] = useState<Recruit | null>(null);
+  const [enrollResult, setEnrollResult] = useState<CreateResult | null>(null);
 
   useEffect(() => {
     if (!detail) return;
@@ -189,6 +192,7 @@ export default function RecruitsTable({ initialRecruits }: Props) {
                 <th>Kinh nghiệm</th>
                 <th>Ngày đăng ký</th>
                 <th>Trạng thái</th>
+                <th>Kết nạp</th>
               </tr>
             </thead>
             <tbody>
@@ -222,11 +226,58 @@ export default function RecruitsTable({ initialRecruits }: Props) {
                       ))}
                     </select>
                   </td>
+                  <td data-label="Kết nạp" onClick={(e) => e.stopPropagation()}>
+                    {r.enrolled_at ? (
+                      <span className="enrolled-tag">Đã kết nạp</span>
+                    ) : r.status === "passed" ? (
+                      <button
+                        type="button"
+                        className="btn btn--solid btn--sm"
+                        onClick={() => setEnrolling(r)}
+                      >
+                        Kết nạp
+                      </button>
+                    ) : (
+                      <span className="text-faint">—</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+      )}
+
+      {enrolling && (
+        <MemberFormDialog
+          title={`Kết nạp ${enrolling.full_name}`}
+          recruitId={enrolling.id}
+          lockPrefilled
+          initial={{
+            email: enrolling.email,
+            full_name: enrolling.full_name,
+            student_id: enrolling.student_id,
+            phone: enrolling.phone ?? "",
+            position: enrolling.position,
+            height_cm: enrolling.height_cm?.toString() ?? "",
+          }}
+          onClose={() => setEnrolling(null)}
+          onCreated={(result) => {
+            setRecruits((rs) =>
+              rs.map((x) =>
+                x.id === enrolling.id
+                  ? { ...x, status: "passed" as RecruitStatus, enrolled_at: new Date().toISOString() }
+                  : x
+              )
+            );
+            setEnrolling(null);
+            setEnrollResult(result);
+          }}
+        />
+      )}
+
+      {enrollResult && (
+        <EnrollResultPanel result={enrollResult} onClose={() => setEnrollResult(null)} />
       )}
 
       {detail && (
@@ -271,6 +322,58 @@ export default function RecruitsTable({ initialRecruits }: Props) {
           </aside>
         </div>
       )}
+    </div>
+  );
+}
+
+function EnrollResultPanel({
+  result,
+  onClose,
+}: {
+  result: CreateResult;
+  onClose: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(
+        `Email: ${result.email}\nMật khẩu tạm: ${result.temp_password}`
+      );
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  return (
+    <div className="drawer" role="dialog" aria-modal="true" aria-label="Kết quả kết nạp" onClick={onClose}>
+      <aside className="drawer__panel" onClick={(e) => e.stopPropagation()}>
+        <header className="drawer__head">
+          <div>
+            <h2>{result.email_sent ? "Đã kết nạp thành công" : "Đã tạo tài khoản nhưng gửi email thất bại"}</h2>
+          </div>
+          <button type="button" className="drawer__close" aria-label="Đóng" onClick={onClose}>×</button>
+        </header>
+
+        <div className="creds creds--flat">
+          <p className="creds__note">
+            {result.email_sent
+              ? "Email chào mừng kèm mật khẩu tạm đã được gửi tới thành viên."
+              : "Tài khoản đã được tạo. Vui lòng gửi thủ công thông tin bên dưới cho thành viên."}
+          </p>
+          <div className="creds__row"><span>Email</span><code>{result.email}</code></div>
+          <div className="creds__row"><span>Mật khẩu tạm</span><code>{result.temp_password}</code></div>
+          <button type="button" className="btn btn--solid" onClick={copy}>
+            {copied ? "Đã copy!" : "Copy thông tin"}
+          </button>
+        </div>
+
+        {!result.email_sent && result.email_error && (
+          <p className="field__hint">Lỗi gửi email: {result.email_error}</p>
+        )}
+      </aside>
     </div>
   );
 }

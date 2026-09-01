@@ -13,6 +13,8 @@ export interface Recruit {
   note: string | null;
   status: RecruitStatus;
   created_at: string;
+  /** Khác null = đơn đã được kết nạp thành thành viên, ẩn nút Kết nạp. */
+  enrolled_at?: string | null;
 }
 
 export const STATUS_LABEL: Record<RecruitStatus, string> = {

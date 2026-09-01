@@ -47,7 +47,10 @@ export default async function DashboardPage() {
             <div className="form-card">
               {isStaff && (
                 <p className="dash-actions">
-                  <a href="/dashboard/recruits" className="btn btn--solid">
+                  <a href="/dashboard/members" className="btn btn--solid">
+                    Quản lý thành viên
+                  </a>
+                  <a href="/dashboard/recruits" className="btn btn--ghost">
                     Xem đơn tuyển quân
                   </a>
                   <a href="/dashboard/settings" className="btn btn--ghost">

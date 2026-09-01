@@ -34,7 +34,7 @@ export default async function RecruitsPage() {
   const { data, error } = await supabase
     .from("recruits")
     .select(
-      "id, full_name, student_id, email, phone, height_cm, position, experience, note, status, created_at"
+      "id, full_name, student_id, email, phone, height_cm, position, experience, note, status, created_at, enrolled_at"
     )
     .order("created_at", { ascending: false });
 
