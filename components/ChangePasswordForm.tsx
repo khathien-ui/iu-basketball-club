@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-
-const MIN_LENGTH = 8;
+import { validateNewPassword } from "@/lib/password";
 
 export default function ChangePasswordForm() {
   const router = useRouter();
@@ -17,16 +16,9 @@ export default function ChangePasswordForm() {
     ev.preventDefault();
     setError(null);
 
-    if (password.length < MIN_LENGTH) {
-      setError(`Mật khẩu phải có ít nhất ${MIN_LENGTH} ký tự.`);
-      return;
-    }
-    if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) {
-      setError("Mật khẩu phải có cả chữ hoa, chữ thường và số.");
-      return;
-    }
-    if (password !== confirm) {
-      setError("Hai lần nhập mật khẩu không khớp.");
+    const invalid = validateNewPassword(password, confirm);
+    if (invalid) {
+      setError(invalid);
       return;
     }
 

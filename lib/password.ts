@@ -1,3 +1,22 @@
+export const MIN_PASSWORD_LENGTH = 8;
+
+/**
+ * Quy tắc mật khẩu mới, dùng chung cho màn hình đổi mật khẩu bắt buộc
+ * và màn hình đổi mật khẩu trong hồ sơ. Trả null nếu hợp lệ.
+ */
+export function validateNewPassword(password: string, confirm: string): string | null {
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return `Mật khẩu phải có ít nhất ${MIN_PASSWORD_LENGTH} ký tự.`;
+  }
+  if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) {
+    return "Mật khẩu phải có cả chữ hoa, chữ thường và số.";
+  }
+  if (password !== confirm) {
+    return "Hai lần nhập mật khẩu không khớp.";
+  }
+  return null;
+}
+
 const UPPER = "ABCDEFGHJKLMNPQRSTUVWXYZ"; // bỏ I, O cho dễ đọc
 const LOWER = "abcdefghijkmnopqrstuvwxyz"; // bỏ l
 const DIGITS = "23456789"; // bỏ 0, 1

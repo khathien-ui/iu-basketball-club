@@ -1319,6 +1319,44 @@ a { color: inherit; text-decoration: none; }
 }
 .creds .btn { margin-top: 14px; }
 
+/* ============ Hồ sơ cá nhân ============ */
+.profile { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
+.profile-card { margin-top: 0; }
+.profile-card__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.profile-card__note {
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+}
+
+.lock-tag {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 7px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  vertical-align: middle;
+}
+
+.field input:disabled,
+.field input[readonly] {
+  color: var(--text-dim);
+  background: #101013;
+  border-color: var(--border);
+  cursor: default;
+}
+.field input:disabled { opacity: 1; }
+
 /* ============ CTA ============ */
 .cta { text-align: center; position: relative; overflow: hidden; }
 .cta::before {
