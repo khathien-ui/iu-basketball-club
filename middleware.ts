@@ -4,7 +4,7 @@ import { updateSession, redirectKeepingCookies } from "@/lib/supabase/middleware
 const STAFF_ROLES = ["admin", "executive_board"];
 
 /** Khu vực chỉ dành cho admin và executive_board. */
-const STAFF_PATHS = ["/dashboard/admin", "/dashboard/recruits"];
+const STAFF_PATHS = ["/dashboard/admin", "/dashboard/recruits", "/dashboard/settings"];
 
 export async function middleware(request: NextRequest) {
   // Chưa cấu hình Supabase → cho qua, tránh middleware sập làm chết cả site.

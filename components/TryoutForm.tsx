@@ -119,6 +119,11 @@ export default function TryoutForm() {
         if (error.code === "23505") {
           setErrors((e) => ({ ...e, student_id: "MSSV này đã đăng ký rồi." }));
           setSubmitError("MSSV này đã đăng ký rồi. Mỗi sinh viên chỉ nộp đơn một lần.");
+        } else if (error.code === "42501") {
+          // RLS chặn: đợt đăng ký đã đóng trong lúc đang điền form.
+          setSubmitError(
+            "Đợt tuyển quân đã đóng nên không nhận thêm đơn. Vui lòng theo dõi fanpage CLB để biết đợt tiếp theo."
+          );
         } else {
           setSubmitError("Gửi đơn thất bại. Vui lòng thử lại sau ít phút.");
         }

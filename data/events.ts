@@ -12,6 +12,8 @@ export interface ClubEvent {
   external?: boolean;
   /** ghi chú nhỏ hiện dưới nút */
   note?: string;
+  /** khoá nút theo đợt đăng ký: nút chỉ bấm được khi đợt đang mở */
+  gate?: "tryout" | "tournament";
   date: string;
 }
 
@@ -23,6 +25,7 @@ export const events: ClubEvent[] = [
     tag: "TRYOUTS",
     action: "Register",
     href: "/tryout",
+    gate: "tryout",
     date: "TBA",
   },
   {

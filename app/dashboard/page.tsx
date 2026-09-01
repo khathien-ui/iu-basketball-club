@@ -46,9 +46,12 @@ export default async function DashboardPage() {
 
             <div className="form-card">
               {isStaff && (
-                <p style={{ marginTop: 0, marginBottom: 20 }}>
+                <p className="dash-actions">
                   <a href="/dashboard/recruits" className="btn btn--solid">
                     Xem đơn tuyển quân
+                  </a>
+                  <a href="/dashboard/settings" className="btn btn--ghost">
+                    Cài đặt đợt đăng ký
                   </a>
                 </p>
               )}
