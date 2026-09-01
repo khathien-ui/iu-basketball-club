@@ -32,6 +32,7 @@ export default async function DashboardPage() {
 
   const name = profile?.full_name?.trim() || user.email || "bạn";
   const role = profile?.role ? ROLE_LABEL[profile.role] ?? profile.role : null;
+  const isStaff = !!profile && ["admin", "executive_board"].includes(profile.role);
 
   return (
     <>
@@ -44,6 +45,13 @@ export default async function DashboardPage() {
             {role && <p className="section__lede">Bạn đang đăng nhập với vai trò {role}.</p>}
 
             <div className="form-card">
+              {isStaff && (
+                <p style={{ marginTop: 0, marginBottom: 20 }}>
+                  <a href="/dashboard/recruits" className="btn btn--solid">
+                    Xem đơn tuyển quân
+                  </a>
+                </p>
+              )}
               <p className="form-note" style={{ marginTop: 0 }}>
                 Khu vực thành viên đang được xây dựng. Các tính năng hồ sơ cá nhân,
                 danh sách đội hình và quản lý sự kiện sẽ sớm có mặt tại đây.

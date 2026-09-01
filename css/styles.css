@@ -63,8 +63,13 @@ a { color: inherit; text-decoration: none; }
   gap: 8px;
   padding: 8px 16px;
   border-radius: 8px;
+  font-family: inherit;
   font-size: 0.875rem;
   font-weight: 500;
+  /* transparent + cursor: cần thiết khi .btn dùng trên <button>,
+     nếu không nền mặc định của trình duyệt sẽ đè lên (ô trắng trống). */
+  background: transparent;
+  cursor: pointer;
   border: 1px solid transparent;
   transition: background 0.2s, border-color 0.2s, color 0.2s,
               transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
@@ -76,7 +81,8 @@ a { color: inherit; text-decoration: none; }
 .btn--lg { padding: 12px 24px; font-size: 0.9375rem; }
 .btn--solid { background: var(--text); color: #0a0a0a; }
 .btn--solid:hover { background: #ffffff; box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15); }
-.btn--ghost { border-color: var(--border-strong); color: var(--text); }
+.btn--ghost { border-color: var(--border-strong); color: var(--text); background: transparent; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .btn--ghost:hover { border-color: var(--text-faint); background: var(--bg-raised); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -898,6 +904,200 @@ a { color: inherit; text-decoration: none; }
 .user-menu__signout:hover { background: #26262b; color: var(--text); }
 .user-menu__signout { border-top: 1px solid var(--border); border-radius: 0 0 7px 7px; margin-top: 4px; }
 
+/* ============ Dashboard: danh sách đơn ============ */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.recruits { margin-top: 32px; }
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  padding: 20px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.stat-card__value {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.2;
+}
+.stat-card__label {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  color: var(--text-dim);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.toolbar .field { flex: 0 0 auto; gap: 0; }
+.toolbar__search { flex: 1 1 240px; }
+.toolbar .btn { margin-left: auto; }
+
+.recruits__count {
+  margin-bottom: 12px;
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+}
+.recruits__empty { margin-top: 0; text-align: center; color: var(--text-dim); }
+
+.table-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  background: var(--bg-raised);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.data-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  vertical-align: middle;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.data-table tbody tr:hover { background: #22222a; }
+.data-table tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.data-table tbody tr.is-saving { opacity: 0.55; }
+.data-table strong { color: var(--text); font-weight: 600; }
+.nowrap { white-space: nowrap; }
+
+.pos-chip {
+  display: inline-block;
+  min-width: 34px;
+  padding: 3px 8px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  background: #26262d;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+}
+
+.status-select {
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  color: var(--text);
+  background: #131316;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  cursor: pointer;
+  appearance: none;
+}
+.status-select:focus { outline: none; border-color: var(--accent); }
+.status-select--pending  { border-color: #8a6a2f; color: #ffd08a; }
+.status-select--passed   { border-color: #2f6a45; color: #8ce0ab; }
+.status-select--rejected { border-color: #7a3438; color: #ff9ba0; }
+.status-select option { background: #131316; color: var(--text); }
+
+/* panel chi tiết */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(8, 8, 10, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: flex-end;
+}
+.drawer__panel {
+  width: min(440px, 100%);
+  height: 100%;
+  overflow-y: auto;
+  padding: 28px;
+  background: var(--bg-raised);
+  border-left: 1px solid var(--border-strong);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.6);
+}
+.drawer__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.drawer__head h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.drawer__head p { margin-top: 4px; font-size: 0.8125rem; color: var(--text-faint); }
+.drawer__close {
+  width: 36px; height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.drawer__close:hover { border-color: var(--text-faint); background: #26262b; }
+
+.drawer__list { margin: 20px 0 24px; }
+.drawer__list > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.drawer__list dt { font-size: 0.8125rem; color: var(--text-faint); flex-shrink: 0; }
+.drawer__list dd { font-size: 0.875rem; color: var(--text); text-align: right; }
+.drawer__note { flex-direction: column; align-items: flex-start; }
+.drawer__note dd {
+  margin-top: 6px;
+  text-align: left;
+  color: var(--text-dim);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
 /* ============ CTA ============ */
 .cta { text-align: center; position: relative; overflow: hidden; }
 .cta::before {
@@ -1014,6 +1214,50 @@ a { color: inherit; text-decoration: none; }
 
   .form-grid { grid-template-columns: 1fr; gap: 18px; }
   .form-card { padding: 24px 20px; }
+
+  /* bảng đơn tuyển quân → dạng card */
+  .stat-cards { grid-template-columns: 1fr; gap: 12px; }
+  .stat-card { padding: 16px; display: flex; align-items: baseline; gap: 10px; }
+  .stat-card__value { font-size: 1.375rem; }
+  .stat-card__label { margin-top: 0; }
+
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .toolbar .field { flex: 1 1 auto; }
+  .toolbar .btn { margin-left: 0; width: 100%; }
+
+  .table-wrap { border: none; background: transparent; overflow-x: visible; }
+  .data-table, .data-table tbody, .data-table tr, .data-table td { display: block; width: 100%; }
+  .data-table thead { display: none; }
+  .data-table tbody tr {
+    margin-bottom: 12px;
+    padding: 6px 4px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .data-table tbody tr:hover { background: var(--bg-raised); }
+  .data-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+  }
+  .data-table tbody tr td:last-child { border-bottom: none; }
+  .data-table td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+    text-align: left;
+  }
+  .status-select { width: auto; }
+
+  .drawer__panel { width: 100%; padding: 20px; }
   .form-done { padding: 40px 20px; }
   .form-done__actions .btn { width: 100%; }
 

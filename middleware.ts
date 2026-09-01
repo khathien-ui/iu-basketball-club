@@ -3,6 +3,9 @@ import { updateSession, redirectKeepingCookies } from "@/lib/supabase/middleware
 
 const STAFF_ROLES = ["admin", "executive_board"];
 
+/** Khu vực chỉ dành cho admin và executive_board. */
+const STAFF_PATHS = ["/dashboard/admin", "/dashboard/recruits"];
+
 export async function middleware(request: NextRequest) {
   // Chưa cấu hình Supabase → cho qua, tránh middleware sập làm chết cả site.
   if (
@@ -29,7 +32,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Khu vực quản trị: chỉ admin và executive_board.
-  if (pathname.startsWith("/dashboard/admin")) {
+  if (STAFF_PATHS.some((p) => pathname.startsWith(p))) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
