@@ -13,27 +13,10 @@ import {
   type RecruitPosition,
   type RecruitStatus,
 } from "@/lib/recruits";
+import { exportRecruitsToExcel } from "@/lib/exportRecruits";
 
 interface Props {
   initialRecruits: Recruit[];
-}
-
-const CSV_HEADERS = [
-  "Họ và tên",
-  "MSSV",
-  "Email",
-  "Số điện thoại",
-  "Chiều cao (cm)",
-  "Vị trí",
-  "Kinh nghiệm",
-  "Ghi chú",
-  "Trạng thái",
-  "Ngày đăng ký",
-];
-
-function csvCell(value: string | number | null): string {
-  const s = value === null || value === undefined ? "" : String(value);
-  return `"${s.replace(/"/g, '""')}"`;
 }
 
 export default function RecruitsTable({ initialRecruits }: Props) {
@@ -43,6 +26,8 @@ export default function RecruitsTable({ initialRecruits }: Props) {
   const [query, setQuery] = useState("");
   const [savingId, setSavingId] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
   const [detail, setDetail] = useState<Recruit | null>(null);
 
   useEffect(() => {
@@ -97,32 +82,16 @@ export default function RecruitsTable({ initialRecruits }: Props) {
     }
   }
 
-  function exportCsv() {
-    const rows = filtered.map((r) => [
-      csvCell(r.full_name),
-      csvCell(r.student_id),
-      csvCell(r.email),
-      csvCell(r.phone),
-      csvCell(r.height_cm),
-      csvCell(POSITION_LABEL[r.position]),
-      csvCell(r.experience),
-      csvCell(r.note),
-      csvCell(STATUS_LABEL[r.status]),
-      csvCell(formatDate(r.created_at)),
-    ].join(","));
-
-    const csv = [CSV_HEADERS.map(csvCell).join(","), ...rows].join("\r\n");
-    // BOM UTF-8 để Excel nhận đúng tiếng Việt, không bị lỗi font.
-    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `don-tuyen-quan-${new Date().toISOString().slice(0, 10)}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  async function handleExport() {
+    setExportError(null);
+    setExporting(true);
+    try {
+      await exportRecruitsToExcel(filtered);
+    } catch {
+      setExportError("Không tạo được file Excel. Vui lòng thử lại.");
+    } finally {
+      setExporting(false);
+    }
   }
 
   return (
@@ -182,12 +151,18 @@ export default function RecruitsTable({ initialRecruits }: Props) {
           </select>
         </div>
 
-        <button type="button" className="btn btn--ghost" onClick={exportCsv} disabled={!filtered.length}>
-          Xuất CSV
+        <button
+          type="button"
+          className="btn btn--ghost"
+          onClick={handleExport}
+          disabled={!filtered.length || exporting}
+        >
+          {exporting ? "Đang tạo file…" : "Xuất Excel"}
         </button>
       </div>
 
       {saveError && <p className="form-alert" role="alert">{saveError}</p>}
+      {exportError && <p className="form-alert" role="alert">{exportError}</p>}
 
       <p className="recruits__count">
         Hiển thị {filtered.length} / {recruits.length} đơn
