@@ -59,6 +59,9 @@ export default function NavbarClient({ displayName, isStaff }: Props) {
 
       {menuOpen && (
         <div className="user-menu__dropdown" role="menu">
+          <a href="/checkin" role="menuitem" onClick={() => setMenuOpen(false)}>
+            Điểm danh
+          </a>
           <a href="/dashboard/profile" role="menuitem" onClick={() => setMenuOpen(false)}>
             Hồ sơ
           </a>
@@ -105,6 +108,7 @@ export default function NavbarClient({ displayName, isStaff }: Props) {
             )}
             {displayName && (
               <>
+                <a href="/checkin" className="btn btn--ghost" onClick={close}>Điểm danh</a>
                 <a href="/dashboard" className="btn btn--ghost" onClick={close}>Dashboard</a>
                 <form action={signOut}>
                   <button type="submit" className="btn btn--ghost" style={{ width: "100%" }}>

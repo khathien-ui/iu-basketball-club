@@ -14,6 +14,9 @@ const STAFF_PATHS = [
 
 const CHANGE_PASSWORD_PATH = "/dashboard/change-password";
 
+/** Khu vực yêu cầu đăng nhập: cùng áp dụng khoá tài khoản và ép đổi mật khẩu. */
+const MEMBER_AREA = ["/dashboard", "/checkin"];
+
 export async function middleware(request: NextRequest) {
   // Chưa cấu hình Supabase → cho qua, tránh middleware sập làm chết cả site.
   if (
@@ -26,7 +29,7 @@ export async function middleware(request: NextRequest) {
   const { supabase, response, user } = await updateSession(request);
   const { pathname } = request.nextUrl;
 
-  if (!pathname.startsWith("/dashboard")) {
+  if (!MEMBER_AREA.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
     return response;
   }
 

@@ -45,9 +45,14 @@ export default async function DashboardPage() {
             {role && <p className="section__lede">Bạn đang đăng nhập với vai trò {role}.</p>}
 
             <div className="form-card">
+              <p className="dash-actions">
+                <a href="/checkin" className="btn btn--solid">Điểm danh buổi tập</a>
+                <a href="/dashboard/profile" className="btn btn--ghost">Hồ sơ của tôi</a>
+              </p>
+
               {isStaff && (
                 <p className="dash-actions">
-                  <a href="/dashboard/members" className="btn btn--solid">
+                  <a href="/dashboard/members" className="btn btn--ghost">
                     Quản lý thành viên
                   </a>
                   <a href="/dashboard/sessions" className="btn btn--ghost">
