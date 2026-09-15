@@ -4,7 +4,10 @@ import { createClient } from "@/lib/supabase/server";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProfileForm from "@/components/ProfileForm";
+import MyAttendance, { type MyAttendanceRow } from "@/components/MyAttendance";
 import type { Profile } from "@/lib/members";
+import type { Attendance, TrainingSession } from "@/lib/sessions";
+import { computeStats, periodFor, sessionsInPeriod, todayYmd } from "@/lib/attendanceStats";
 
 export const metadata: Metadata = {
   title: "Hồ sơ của tôi — IU Basketball Club",
@@ -30,6 +33,51 @@ export default async function ProfilePage() {
 
   const profile = data as Profile | null;
 
+  // ---- Chuyên cần tháng này + lịch sử check-in của chính thành viên ----
+  const period = periodFor("this_month");
+  const monthLabel = `tháng ${new Date().getMonth() + 1}`;
+
+  const [{ data: sessionRows }, { data: historyRows }] = await Promise.all([
+    supabase
+      .from("training_sessions")
+      .select(
+        "id, title, session_date, start_time, end_time, location, checkin_code, checkin_opens_at, checkin_closes_at, is_active, created_by, created_at, note"
+      )
+      .gte("session_date", period.from)
+      .lte("session_date", period.to),
+    supabase
+      .from("attendances")
+      .select(
+        "id, checked_in_at, status, created_at, session_id, member_id, marked_by, note, training_sessions(title, session_date, start_time, location)"
+      )
+      .eq("member_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(5),
+  ]);
+
+  const monthSessions = sessionsInPeriod(
+    (sessionRows ?? []) as TrainingSession[],
+    period,
+    todayYmd()
+  );
+
+  // Bản ghi điểm danh của riêng mình trong các buổi của tháng.
+  let myAttendances: Attendance[] = [];
+  if (profile && monthSessions.length > 0) {
+    const { data: mine } = await supabase
+      .from("attendances")
+      .select("id, session_id, member_id, checked_in_at, status, marked_by, note")
+      .eq("member_id", user.id)
+      .in("session_id", monthSessions.map((s) => s.id));
+    myAttendances = (mine ?? []) as Attendance[];
+  }
+
+  const myStats = profile
+    ? computeStats([profile], monthSessions, myAttendances)[0]
+    : null;
+
+  const history = (historyRows ?? []) as unknown as MyAttendanceRow[];
+
   return (
     <>
       <Navbar />
@@ -49,7 +97,23 @@ export default async function ProfilePage() {
                 {error ? `: ${error.message}` : "."}
               </p>
             ) : (
-              <ProfileForm profile={profile} />
+              <>
+                <ProfileForm profile={profile} />
+                {myStats && (
+                  <div className="profile">
+                    <MyAttendance
+                      monthLabel={monthLabel}
+                      totalSessions={myStats.totalSessions}
+                      attended={myStats.attended}
+                      late={myStats.late}
+                      excused={myStats.excused}
+                      absent={myStats.absent}
+                      rate={myStats.rate}
+                      history={history}
+                    />
+                  </div>
+                )}
+              </>
             )}
           </div>
         </section>

@@ -10,6 +10,7 @@ const STAFF_PATHS = [
   "/dashboard/settings",
   "/dashboard/members",
   "/dashboard/sessions",
+  "/dashboard/attendance",
 ];
 
 const CHANGE_PASSWORD_PATH = "/dashboard/change-password";
