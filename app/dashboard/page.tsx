@@ -50,6 +50,9 @@ export default async function DashboardPage() {
                   <a href="/dashboard/members" className="btn btn--solid">
                     Quản lý thành viên
                   </a>
+                  <a href="/dashboard/sessions" className="btn btn--ghost">
+                    Buổi tập &amp; điểm danh
+                  </a>
                   <a href="/dashboard/recruits" className="btn btn--ghost">
                     Xem đơn tuyển quân
                   </a>
