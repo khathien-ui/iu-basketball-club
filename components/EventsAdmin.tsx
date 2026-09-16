@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import EventFormDialog from "./EventFormDialog";
+import ConfirmDialog from "./ConfirmDialog";
 import {
   EVENT_TYPE_LABEL,
   EVENT_TYPE_ORDER,
@@ -280,34 +281,6 @@ export default function EventsAdmin({ initialEvents, goingCounts }: Props) {
           onConfirm={() => handleDelete(confirmDelete)}
         />
       )}
-    </div>
-  );
-}
-
-function ConfirmDialog({
-  title, message, confirmLabel, busy, onCancel, onConfirm,
-}: {
-  title: string;
-  message: string;
-  confirmLabel: string;
-  busy: boolean;
-  onCancel: () => void;
-  onConfirm: () => void;
-}) {
-  return (
-    <div className="lightbox confirm" role="dialog" aria-modal="true" aria-label={title} onClick={onCancel}>
-      <div className="form-card confirm__panel" onClick={(e) => e.stopPropagation()}>
-        <h2 className="confirm__title">{title}</h2>
-        <p className="confirm__message">{message}</p>
-        <div className="confirm__actions">
-          <button type="button" className="btn btn--ghost btn--lg" onClick={onCancel} disabled={busy}>
-            Huỷ
-          </button>
-          <button type="button" className="btn btn--danger btn--lg" onClick={onConfirm} disabled={busy}>
-            {busy ? "Đang xoá…" : confirmLabel}
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

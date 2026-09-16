@@ -17,7 +17,7 @@ const STAFF_PATHS = [
 ];
 
 /** Khu vực cho cả ban truyền thông (RLS của events dùng is_media_manager). */
-const MEDIA_PATHS = ["/dashboard/events"];
+const MEDIA_PATHS = ["/dashboard/events", "/dashboard/posts"];
 
 const CHANGE_PASSWORD_PATH = "/dashboard/change-password";
 

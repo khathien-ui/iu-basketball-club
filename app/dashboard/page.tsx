@@ -54,6 +54,9 @@ export default async function DashboardPage() {
                   <a href="/dashboard/events" className="btn btn--ghost">
                     Sự kiện
                   </a>
+                  <a href="/dashboard/posts" className="btn btn--ghost">
+                    Bài viết
+                  </a>
                 </p>
               )}
 

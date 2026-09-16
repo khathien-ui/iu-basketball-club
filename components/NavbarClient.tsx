@@ -70,9 +70,14 @@ export default function NavbarClient({ displayName, isStaff, canManageContent }:
             Dashboard
           </a>
           {canManageContent && (
-            <a href="/dashboard/events" role="menuitem" onClick={() => setMenuOpen(false)}>
-              Sự kiện
-            </a>
+            <>
+              <a href="/dashboard/events" role="menuitem" onClick={() => setMenuOpen(false)}>
+                Sự kiện
+              </a>
+              <a href="/dashboard/posts" role="menuitem" onClick={() => setMenuOpen(false)}>
+                Bài viết
+              </a>
+            </>
           )}
           {isStaff && (
             <a href="/dashboard/members" role="menuitem" onClick={() => setMenuOpen(false)}>
