@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import CoverUpload from "./CoverUpload";
+import SlugField from "./SlugField";
 import {
   EVENT_COLUMNS,
   EVENT_TYPE_LABEL,
@@ -12,12 +13,14 @@ import {
   type ClubEventRow,
   type EventType,
 } from "@/lib/events";
+import { findAvailableSlug, writeWithUniqueSlug } from "@/lib/slug";
+import { useSlugCheck } from "@/lib/useSlugCheck";
 
 interface Props {
   /** null = tạo mới */
   event: ClubEventRow | null;
   onClose: () => void;
-  onSaved: (event: ClubEventRow, isNew: boolean) => void;
+  onSaved: (event: ClubEventRow, isNew: boolean, finalSlug: string) => void;
 }
 
 export default function EventFormDialog({ event, onClose, onSaved }: Props) {
@@ -41,6 +44,21 @@ export default function EventFormDialog({ event, onClose, onSaved }: Props) {
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Năm của sự kiện là hậu tố ưu tiên khi slug gốc bị trùng.
+  const year = useMemo(() => {
+    if (!eventDate) return null;
+    const y = Number(eventDate.slice(0, 4));
+    return Number.isInteger(y) ? y : null;
+  }, [eventDate]);
+
+  const slugCheck = useSlugCheck({
+    table: "events",
+    slug,
+    touched: slugTouched,
+    year,
+    excludeId: event?.id ?? null,
+  });
 
   function handleTitle(value: string) {
     setTitle(value);
@@ -70,18 +88,29 @@ export default function EventFormDialog({ event, onClose, onSaved }: Props) {
       return;
     }
 
+    // Người dùng tự đặt slug trùng: bắt sửa, không âm thầm đổi.
+    if (slugTouched && slugCheck.status === "taken") {
+      setError(
+        `Slug "${finalSlug}" đã được dùng. Hãy chọn slug khác` +
+        (slugCheck.suggestion ? ` — gợi ý: ${slugCheck.suggestion}.` : ".")
+      );
+      return;
+    }
+
     setSubmitting(true);
     try {
       const supabase = createClient();
+      const slugQuery = {
+        table: "events" as const,
+        base: finalSlug,
+        year,
+        excludeId: event?.id ?? null,
+      };
 
-      // Kiểm tra slug trùng (trừ chính sự kiện đang sửa).
-      let dupQuery = supabase.from("events").select("id").eq("slug", finalSlug);
-      if (editing) dupQuery = dupQuery.neq("id", event!.id);
-      const { data: dup } = await dupQuery.maybeSingle();
-      if (dup) {
-        setError(`Slug "${finalSlug}" đã được dùng cho sự kiện khác. Vui lòng đổi slug.`);
-        return;
-      }
+      // Slug tự sinh thì lấy bản đã né trùng; slug tự đặt thì giữ nguyên.
+      const startSlug = slugTouched
+        ? finalSlug
+        : slugCheck.resolved || (await findAvailableSlug(supabase, slugQuery));
 
       const {
         data: { user },
@@ -89,7 +118,6 @@ export default function EventFormDialog({ event, onClose, onSaved }: Props) {
 
       const payload = {
         title: title.trim(),
-        slug: finalSlug,
         event_type: eventType,
         description: description.trim() || null,
         content: content.trim() || null,
@@ -102,30 +130,40 @@ export default function EventFormDialog({ event, onClose, onSaved }: Props) {
         max_participants: maxNum,
       };
 
-      if (editing) {
-        const { data, error: dbError } = await supabase
-          .from("events")
-          .update(payload)
-          .eq("id", event!.id)
-          .select(EVENT_COLUMNS)
-          .single();
-        if (dbError) throw dbError;
-        onSaved(data as ClubEventRow, false);
-      } else {
-        const { data, error: dbError } = await supabase
-          .from("events")
-          .insert({ ...payload, created_by: user?.id ?? null, is_published: false })
-          .select(EVENT_COLUMNS)
-          .single();
-        if (dbError) throw dbError;
-        onSaved(data as ClubEventRow, true);
-      }
+      // writeWithUniqueSlug tự thử lại với hậu tố mới nếu database báo trùng
+      // (hai người tạo cùng lúc), thay vì ném lỗi ra người dùng.
+      const { data, slug: savedSlug } = await writeWithUniqueSlug<ClubEventRow>(
+        supabase,
+        slugQuery,
+        startSlug,
+        async (candidate) => {
+          if (editing) {
+            return supabase
+              .from("events")
+              .update({ ...payload, slug: candidate })
+              .eq("id", event!.id)
+              .select(EVENT_COLUMNS)
+              .single();
+          }
+          return supabase
+            .from("events")
+            .insert({
+              ...payload,
+              slug: candidate,
+              created_by: user?.id ?? null,
+              is_published: false,
+            })
+            .select(EVENT_COLUMNS)
+            .single();
+        }
+      );
+
+      if (!data) throw new Error("Không nhận được dữ liệu sau khi lưu.");
+      onSaved(data, !editing, savedSlug);
     } catch (err) {
       const e = err as { code?: string; message?: string };
       console.error("[EventFormDialog] Lưu sự kiện lỗi:", err);
-      if (e.code === "23505") {
-        setError("Slug đã tồn tại. Vui lòng đổi slug khác.");
-      } else if (e.code === "42501") {
+      if (e.code === "42501") {
         setError("Bạn không có quyền tạo hoặc sửa sự kiện.");
       } else {
         setError("Không lưu được sự kiện. Vui lòng thử lại.");
@@ -163,19 +201,14 @@ export default function EventFormDialog({ event, onClose, onSaved }: Props) {
                 placeholder="VD: Tuyển quân mùa Thu 2026" />
             </div>
 
-            <div className="field field--full">
-              <label htmlFor="e_slug">Đường dẫn (slug)</label>
-              <input
-                id="e_slug"
-                value={slug}
-                onChange={(e) => { setSlug(e.target.value); setSlugTouched(true); setError(null); }}
-                placeholder="tuyen-quan-mua-thu-2026"
-                className="mono"
-              />
-              <span className="field__hint">
-                Tự sinh từ tiêu đề, có thể sửa. Địa chỉ trang: /events/{slug || "…"}
-              </span>
-            </div>
+            <SlugField
+              id="e_slug"
+              value={slug}
+              check={slugCheck}
+              pathPrefix="/events/"
+              onChange={(v) => { setSlug(v); setSlugTouched(true); setError(null); }}
+              onApplySuggestion={(s) => { setSlug(s); setSlugTouched(true); setError(null); }}
+            />
 
             <div className="field">
               <label htmlFor="e_type">Loại sự kiện</label>

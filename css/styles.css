@@ -1786,6 +1786,32 @@ a { color: inherit; text-decoration: none; }
   gap: 6px;
 }
 
+/* trạng thái kiểm tra slug */
+.slug-status { min-height: 18px; font-size: 0.75rem; line-height: 1.6; }
+.slug-status__line { color: var(--text-faint); }
+.slug-status__line code {
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  word-break: break-all;
+}
+.slug-status__line--good { color: #8ce0ab; }
+.slug-status__line--good code { color: #8ce0ab; }
+.slug-status__line--warn { color: #ffd08a; }
+.slug-status__line--warn code { color: #ffd08a; }
+.slug-status__line--bad { color: #ff9ba0; }
+.slug-status__line--bad code { color: #ff9ba0; }
+
+.slug-status__apply {
+  padding: 1px 6px;
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: rgba(255, 92, 26, 0.12);
+  border: 1px solid rgba(255, 92, 26, 0.35);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.slug-status__apply:hover { background: rgba(255, 92, 26, 0.22); }
+
 /* hộp thoại xác nhận */
 .confirm { align-items: center; justify-content: center; padding: 24px; }
 .confirm__panel { margin-top: 0; max-width: 460px; width: 100%; }

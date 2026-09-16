@@ -109,11 +109,14 @@ export default function EventsAdmin({ initialEvents, goingCounts }: Props) {
     }
   }
 
-  function handleSaved(saved: ClubEventRow, isNew: boolean) {
+  function handleSaved(saved: ClubEventRow, isNew: boolean, finalSlug: string) {
     setEvents((es) => (isNew ? [saved, ...es] : es.map((e) => (e.id === saved.id ? saved : e))));
     setCreating(false);
     setEditing(null);
-    setAlert({ kind: "success", text: isNew ? "Đã tạo sự kiện (bản nháp)." : "Đã lưu thay đổi." });
+    setAlert({
+      kind: "success",
+      text: `${isNew ? "Đã tạo sự kiện (bản nháp)" : "Đã lưu thay đổi"} · đường dẫn /events/${finalSlug}`,
+    });
     router.refresh();
   }
 
