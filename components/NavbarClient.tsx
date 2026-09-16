@@ -77,6 +77,9 @@ export default function NavbarClient({ displayName, isStaff, canManageContent }:
               <a href="/dashboard/posts" role="menuitem" onClick={() => setMenuOpen(false)}>
                 Bài viết
               </a>
+              <a href="/dashboard/albums" role="menuitem" onClick={() => setMenuOpen(false)}>
+                Album ảnh
+              </a>
             </>
           )}
           {isStaff && (
