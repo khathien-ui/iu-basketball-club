@@ -4,15 +4,10 @@ import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/actions/auth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { isMediaRole, isStaffRole, ROLE_LABEL, type UserRole } from "@/lib/members";
 
 export const metadata: Metadata = {
   title: "Dashboard — IU Basketball Club",
-};
-
-const ROLE_LABEL: Record<string, string> = {
-  admin: "Quản trị viên",
-  executive_board: "Ban điều hành",
-  member: "Thành viên",
 };
 
 export default async function DashboardPage() {
@@ -31,8 +26,12 @@ export default async function DashboardPage() {
     .single();
 
   const name = profile?.full_name?.trim() || user.email || "bạn";
-  const role = profile?.role ? ROLE_LABEL[profile.role] ?? profile.role : null;
-  const isStaff = !!profile && ["admin", "executive_board"].includes(profile.role);
+  const role = profile?.role
+    ? ROLE_LABEL[profile.role as UserRole] ?? profile.role
+    : null;
+  const isStaff = isStaffRole(profile?.role);
+  // Ban truyền thông quản lý được sự kiện (RLS dùng is_media_manager).
+  const canManageContent = isMediaRole(profile?.role);
 
   return (
     <>
@@ -49,6 +48,14 @@ export default async function DashboardPage() {
                 <a href="/checkin" className="btn btn--solid">Điểm danh buổi tập</a>
                 <a href="/dashboard/profile" className="btn btn--ghost">Hồ sơ của tôi</a>
               </p>
+
+              {canManageContent && (
+                <p className="dash-actions">
+                  <a href="/dashboard/events" className="btn btn--ghost">
+                    Sự kiện
+                  </a>
+                </p>
+              )}
 
               {isStaff && (
                 <p className="dash-actions">

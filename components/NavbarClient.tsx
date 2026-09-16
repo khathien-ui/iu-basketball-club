@@ -6,9 +6,10 @@ import { signOut } from "@/app/actions/auth";
 interface Props {
   displayName: string | null;
   isStaff: boolean;
+  canManageContent: boolean;
 }
 
-export default function NavbarClient({ displayName, isStaff }: Props) {
+export default function NavbarClient({ displayName, isStaff, canManageContent }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -68,8 +69,13 @@ export default function NavbarClient({ displayName, isStaff }: Props) {
           <a href="/dashboard" role="menuitem" onClick={() => setMenuOpen(false)}>
             Dashboard
           </a>
+          {canManageContent && (
+            <a href="/dashboard/events" role="menuitem" onClick={() => setMenuOpen(false)}>
+              Sự kiện
+            </a>
+          )}
           {isStaff && (
-            <a href="/dashboard/admin" role="menuitem" onClick={() => setMenuOpen(false)}>
+            <a href="/dashboard/members" role="menuitem" onClick={() => setMenuOpen(false)}>
               Quản trị
             </a>
           )}

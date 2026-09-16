@@ -3,6 +3,9 @@ import { updateSession, redirectKeepingCookies } from "@/lib/supabase/middleware
 
 const STAFF_ROLES = ["admin", "executive_board"];
 
+/** Quản lý nội dung — khớp public.is_media_manager() trong database. */
+const MEDIA_ROLES = ["admin", "executive_board", "media"];
+
 /** Khu vực chỉ dành cho admin và executive_board. */
 const STAFF_PATHS = [
   "/dashboard/admin",
@@ -12,6 +15,9 @@ const STAFF_PATHS = [
   "/dashboard/sessions",
   "/dashboard/attendance",
 ];
+
+/** Khu vực cho cả ban truyền thông (RLS của events dùng is_media_manager). */
+const MEDIA_PATHS = ["/dashboard/events"];
 
 const CHANGE_PASSWORD_PATH = "/dashboard/change-password";
 
@@ -78,6 +84,16 @@ export async function middleware(request: NextRequest) {
   // Khu vực quản trị: chỉ admin và executive_board.
   if (STAFF_PATHS.some((p) => pathname.startsWith(p))) {
     if (!profile || !STAFF_ROLES.includes(profile.role)) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      url.search = "";
+      return redirectKeepingCookies(url, response);
+    }
+  }
+
+  // Khu vực nội dung: thêm cả role media.
+  if (MEDIA_PATHS.some((p) => pathname.startsWith(p))) {
+    if (!profile || !MEDIA_ROLES.includes(profile.role)) {
       const url = request.nextUrl.clone();
       url.pathname = "/dashboard";
       url.search = "";

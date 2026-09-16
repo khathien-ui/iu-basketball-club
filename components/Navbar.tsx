@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import NavbarClient from "./NavbarClient";
-
-const STAFF_ROLES = ["admin", "executive_board"];
+import { isMediaRole, isStaffRole } from "@/lib/members";
 
 /**
  * Server Component: đọc session để Navbar hiện đúng trạng thái đăng nhập
@@ -10,6 +9,7 @@ const STAFF_ROLES = ["admin", "executive_board"];
 export default async function Navbar() {
   let displayName: string | null = null;
   let isStaff = false;
+  let canManageContent = false;
 
   try {
     const supabase = createClient();
@@ -25,11 +25,18 @@ export default async function Navbar() {
         .single();
 
       displayName = profile?.full_name?.trim() || user.email || "Thành viên";
-      isStaff = !!profile && STAFF_ROLES.includes(profile.role);
+      isStaff = isStaffRole(profile?.role);
+      canManageContent = isMediaRole(profile?.role);
     }
   } catch {
     // Supabase chưa cấu hình — site vẫn chạy ở chế độ khách.
   }
 
-  return <NavbarClient displayName={displayName} isStaff={isStaff} />;
+  return (
+    <NavbarClient
+      displayName={displayName}
+      isStaff={isStaff}
+      canManageContent={canManageContent}
+    />
+  );
 }
