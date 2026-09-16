@@ -1971,9 +1971,67 @@ a { color: inherit; text-decoration: none; }
 .md-preview img {
   max-width: 100%;
   height: auto;
-  margin: 0.5em 0 1em;
   border-radius: 8px;
   border: 1px solid var(--border);
+}
+
+/* ảnh trong bài: kích thước + căn lề, chỉ từ danh sách class cho phép */
+.md-figure { margin: 1.25em 0; max-width: 100%; }
+.md-figure img { display: block; width: 100%; cursor: zoom-in; }
+.md-figure figcaption {
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--text-faint);
+  line-height: 1.55;
+}
+
+.md-figure--small  { width: 40%; }
+.md-figure--medium { width: 70%; }
+.md-figure--large  { width: 100%; }
+
+.md-figure--left   { margin-right: auto; margin-left: 0; }
+.md-figure--center { margin-left: auto; margin-right: auto; }
+.md-figure--right  { margin-left: auto; margin-right: 0; }
+
+/* bảng tuỳ chọn ảnh trong trình soạn */
+.img-options {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: #16161a;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.img-options--inline { background: rgba(255, 92, 26, 0.06); }
+.img-options__title { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+.img-options__cap { font-weight: 400; color: var(--text-faint); }
+.img-options__row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.img-options__label {
+  min-width: 82px;
+  font-size: 0.8125rem;
+  color: var(--text-dim);
+}
+.img-options__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.seg { display: inline-flex; gap: 4px; }
+.seg__btn {
+  padding: 5px 12px;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.seg__btn:hover { color: var(--text); border-color: var(--text-faint); }
+.seg__btn.is-active {
+  color: var(--accent);
+  border-color: rgba(255, 92, 26, 0.45);
+  background: rgba(255, 92, 26, 0.12);
 }
 .md-preview hr { margin: 1.5em 0; border: none; border-top: 1px solid var(--border); }
 .md-preview del { color: var(--text-faint); }
@@ -2206,6 +2264,17 @@ a { color: inherit; text-decoration: none; }
   .editor-head__actions { width: 100%; }
   .editor-head__actions .btn { flex: 1 1 auto; }
   .editor-meta { padding: 16px; }
+
+  /* trên điện thoại mọi ảnh đều rộng hết khung, bỏ qua cài đặt kích thước */
+  .md-figure--small,
+  .md-figure--medium,
+  .md-figure--large { width: 100%; }
+  .md-figure--left,
+  .md-figure--right { margin-left: 0; margin-right: 0; }
+
+  .img-options__label { min-width: 0; flex: 1 1 100%; }
+  .seg { width: 100%; }
+  .seg__btn { flex: 1 1 auto; }
 
   .md-toolbar__tabs { display: flex; }
   .md-panes { grid-template-columns: 1fr; min-height: 0; }
