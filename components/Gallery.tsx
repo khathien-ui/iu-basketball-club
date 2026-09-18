@@ -1,12 +1,11 @@
-"use client";
+import EmptyState from "./EmptyState";
+import PhotoMasonry from "./PhotoMasonry";
+import { getGalleryPhotos } from "@/lib/publicData";
 
-import Image from "next/image";
-import { useState } from "react";
-import { gallery } from "@/data/gallery";
-import Lightbox from "./Lightbox";
+export const dynamic = "force-dynamic";
 
-export default function Gallery() {
-  const [lightbox, setLightbox] = useState<number | null>(null);
+export default async function Gallery() {
+  const photos = await getGalleryPhotos(6);
 
   return (
     <section className="section" id="gallery">
@@ -17,32 +16,22 @@ export default function Gallery() {
           Hình ảnh và khoảnh khắc nổi bật từ các buổi tuyển quân, tập luyện và giải đấu.
         </p>
 
-        <div className="gallery-masonry">
-          {gallery.map(({ src, caption, width, height }, i) => (
-            <button
-              type="button"
-              className="gallery-item"
-              key={src}
-              onClick={() => setLightbox(i)}
-              aria-label={`Xem ảnh: ${caption}`}
-            >
-              <Image src={src} alt={caption} width={width} height={height} loading="lazy" />
-              <span className="gallery-item__caption">{caption}</span>
-            </button>
-          ))}
-        </div>
+        {photos.length === 0 ? (
+          <EmptyState
+            title="Chưa có ảnh nào"
+            message="Ảnh từ các buổi tập, giải đấu và sự kiện của CLB sẽ xuất hiện ở đây."
+          />
+        ) : (
+          <>
+            <PhotoMasonry photos={photos} />
+            <p className="section-more">
+              <a href="/gallery" className="link-arrow">
+                Xem tất cả album <span aria-hidden="true">→</span>
+              </a>
+            </p>
+          </>
+        )}
       </div>
-
-      {lightbox !== null && (
-        <Lightbox
-          items={gallery.map((g) => ({
-            src: g.src, caption: g.caption, width: g.width, height: g.height,
-          }))}
-          index={lightbox}
-          onClose={() => setLightbox(null)}
-          onNavigate={setLightbox}
-        />
-      )}
     </section>
   );
 }

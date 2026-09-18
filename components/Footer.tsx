@@ -25,9 +25,9 @@ export default function Footer() {
 
         <div className="footer__col">
           <h5>Explore</h5>
-          <a href="/#events">Events</a>
-          <a href="/#gallery">Gallery</a>
-          <a href="/#news">News</a>
+          <a href="/events">Events</a>
+          <a href="/gallery">Gallery</a>
+          <a href="/news">News</a>
         </div>
 
         <div className="footer__col">

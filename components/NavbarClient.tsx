@@ -112,9 +112,9 @@ export default function NavbarClient({ displayName, isStaff, canManageContent }:
         <nav className={`nav__links${open ? " is-open" : ""}`} id="navLinks">
           <a href="/#about" onClick={close}>About Us</a>
           <a href="/#board" onClick={close}>Executive Board</a>
-          <a href="/#events" onClick={close}>Events</a>
-          <a href="/#gallery" onClick={close}>Gallery</a>
-          <a href="/#news" onClick={close}>News</a>
+          <a href="/events" onClick={close}>Events</a>
+          <a href="/gallery" onClick={close}>Gallery</a>
+          <a href="/news" onClick={close}>News</a>
           <a href="/#contact" onClick={close}>Contact</a>
           <div className="nav__actions nav__actions--mobile">
             {!displayName && (
@@ -131,13 +131,13 @@ export default function NavbarClient({ displayName, isStaff, canManageContent }:
                 </form>
               </>
             )}
-            <a href="/#events" className="btn btn--solid" onClick={close}>Join the Club</a>
+            <a href="/events" className="btn btn--solid" onClick={close}>Join the Club</a>
           </div>
         </nav>
 
         <div className="nav__actions">
           {authArea}
-          <a href="/#events" className="btn btn--solid">Join the Club</a>
+          <a href="/events" className="btn btn--solid">Join the Club</a>
         </div>
 
         <button

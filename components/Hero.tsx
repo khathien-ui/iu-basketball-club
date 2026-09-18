@@ -1,7 +1,17 @@
 import Image from "next/image";
-import { heroEvents } from "@/data/events";
+import { formatEventDate } from "@/lib/events";
+import { getUpcomingEvents } from "@/lib/publicData";
 
-export default function Hero() {
+export const dynamic = "force-dynamic";
+
+const TAG: Record<string, string> = {
+  tryout: "TRYOUTS", match: "MATCH", tournament: "TOURNAMENT",
+  team_building: "TEAM BUILDING", other: "EVENT",
+};
+
+export default async function Hero() {
+  const heroEvents = await getUpcomingEvents(3);
+
   return (
     <section className="hero">
       <div className="hero__wrap">
@@ -42,13 +52,19 @@ export default function Hero() {
             <span>upcoming_events.log</span>
           </div>
           <ul className="hero__panel-list">
-            {heroEvents.map(({ date, label, tag }) => (
-              <li key={label}>
-                <span className="mono">{date}</span>
-                <span>{label}</span>
-                <span className="tag">{tag}</span>
+            {heroEvents.length === 0 ? (
+              <li className="hero__panel-empty">
+                <span>Chưa có sự kiện nào sắp tới</span>
               </li>
-            ))}
+            ) : (
+              heroEvents.map((e) => (
+                <li key={e.id}>
+                  <span className="mono">{formatEventDate(e.event_date)}</span>
+                  <span>{e.title}</span>
+                  <span className="tag">{TAG[e.event_type] ?? "EVENT"}</span>
+                </li>
+              ))
+            )}
           </ul>
         </div>
       </div>
