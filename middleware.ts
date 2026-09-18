@@ -14,6 +14,7 @@ const STAFF_PATHS = [
   "/dashboard/members",
   "/dashboard/sessions",
   "/dashboard/attendance",
+  "/dashboard/teams",
 ];
 
 /** Khu vực cho cả ban truyền thông (RLS của events dùng is_media_manager). */

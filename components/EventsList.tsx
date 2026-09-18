@@ -23,13 +23,15 @@ const TAG_LABEL: Record<string, string> = {
 };
 
 export default async function EventsList() {
-  const [events, userId, tryoutWindow] = await Promise.all([
+  const [events, userId, tryoutWindow, tournamentWindow] = await Promise.all([
     getUpcomingEvents(3),
     getCurrentUserId(),
     getRegistrationWindow("tryout"),
+    getRegistrationWindow("tournament"),
   ]);
 
   const tryoutOpen = isWindowOpen(tryoutWindow);
+  const tournamentOpen = isWindowOpen(tournamentWindow);
 
   // Chỉ những sự kiện mở nhận tham gia mới cần đếm người và tra trạng thái.
   const joinable = events.filter(canJoinEvent);
@@ -61,6 +63,7 @@ export default async function EventsList() {
                   key={e.id}
                   event={e}
                   tryoutOpen={tryoutOpen}
+                  tournamentOpen={tournamentOpen}
                   isLoggedIn={!!userId}
                   goingCount={counts.get(e.id) ?? 0}
                   myStatus={(mine.get(e.id) as never) ?? null}
@@ -81,10 +84,11 @@ export default async function EventsList() {
 }
 
 export function EventRow({
-  event, tryoutOpen, isLoggedIn, goingCount, myStatus,
+  event, tryoutOpen, tournamentOpen, isLoggedIn, goingCount, myStatus,
 }: {
   event: ClubEventRow;
   tryoutOpen: boolean;
+  tournamentOpen: boolean;
   isLoggedIn: boolean;
   goingCount: number;
   myStatus: "going" | "maybe" | "cancelled" | null;
@@ -110,6 +114,7 @@ export function EventRow({
         <EventAction
           event={event}
           tryoutOpen={tryoutOpen}
+          tournamentOpen={tournamentOpen}
           isLoggedIn={isLoggedIn}
           goingCount={goingCount}
           myStatus={myStatus}
@@ -122,14 +127,16 @@ export function EventRow({
 /**
  * Nút hành động theo loại sự kiện:
  *  - tryout            -> /tryout, khoá lại nếu đợt đang đóng
+ *  - tournament        -> /tournament-signup, khoá lại nếu đợt đang đóng
  *  - allow_join        -> nút Tham gia (yêu cầu đăng nhập)
  *  - còn lại           -> Chi tiết
  */
 function EventAction({
-  event, tryoutOpen, isLoggedIn, goingCount, myStatus,
+  event, tryoutOpen, tournamentOpen, isLoggedIn, goingCount, myStatus,
 }: {
   event: ClubEventRow;
   tryoutOpen: boolean;
+  tournamentOpen: boolean;
   isLoggedIn: boolean;
   goingCount: number;
   myStatus: "going" | "maybe" | "cancelled" | null;
@@ -141,6 +148,18 @@ function EventAction({
       <>
         <span className="btn btn--ghost is-locked" aria-disabled="true">Sắp mở</span>
         <span className="event-row__note">Đợt tuyển quân chưa mở</span>
+      </>
+    );
+  }
+
+  // Giải đấu đăng ký theo đội, không phải theo cá nhân.
+  if (event.event_type === "tournament") {
+    return tournamentOpen ? (
+      <a href="/tournament-signup" className="btn btn--ghost">Register a Team</a>
+    ) : (
+      <>
+        <span className="btn btn--ghost is-locked" aria-disabled="true">Sắp mở</span>
+        <span className="event-row__note">Đăng ký đội chưa mở</span>
       </>
     );
   }

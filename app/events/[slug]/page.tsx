@@ -57,16 +57,18 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
   const event = await getEventBySlug(params.slug);
   if (!event) notFound();
 
-  const [userId, goingCount, album, tryoutWindow] = await Promise.all([
+  const [userId, goingCount, album, signupWindow] = await Promise.all([
     getCurrentUserId(),
     getGoingCount(event.id),
     getAlbumForEvent(event.id),
-    event.event_type === "tryout" ? getRegistrationWindow("tryout") : Promise.resolve(null),
+    event.event_type === "tryout" || event.event_type === "tournament"
+      ? getRegistrationWindow(event.event_type === "tryout" ? "tryout" : "tournament")
+      : Promise.resolve(null),
   ]);
 
   const myStatus = userId ? await getMyParticipation(event.id, userId) : null;
   const photos = album ? await getAlbumPhotos(album.id, 12) : [];
-  const tryoutOpen = isWindowOpen(tryoutWindow);
+  const signupOpen = isWindowOpen(signupWindow);
 
   return (
     <>
@@ -111,12 +113,21 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
 
             <div className="detail-actions">
               {event.event_type === "tryout" ? (
-                tryoutOpen ? (
+                signupOpen ? (
                   <a href="/tryout" className="btn btn--solid btn--lg">Đăng ký tuyển quân</a>
                 ) : (
                   <>
                     <span className="btn btn--ghost btn--lg is-locked" aria-disabled="true">Sắp mở</span>
                     <span className="field__hint">Đợt tuyển quân hiện chưa mở.</span>
+                  </>
+                )
+              ) : event.event_type === "tournament" ? (
+                signupOpen ? (
+                  <a href="/tournament-signup" className="btn btn--solid btn--lg">Đăng ký đội</a>
+                ) : (
+                  <>
+                    <span className="btn btn--ghost btn--lg is-locked" aria-disabled="true">Sắp mở</span>
+                    <span className="field__hint">Đăng ký đội cho giải này hiện chưa mở.</span>
                   </>
                 )
               ) : canJoinEvent(event) ? (

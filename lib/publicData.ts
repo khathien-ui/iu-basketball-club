@@ -59,6 +59,19 @@ export async function getUpcomingEvents(limit = 3): Promise<ClubEventRow[]> {
   return all.filter((e) => isUpcoming(e, today)).sort(sortUpcoming).slice(0, limit);
 }
 
+/** Sự kiện sắp tới thuộc một loại — dùng cho form đăng ký đội theo giải. */
+export async function getUpcomingEventsByType(
+  type: ClubEventRow["event_type"],
+  limit = 20
+): Promise<ClubEventRow[]> {
+  const all = await getPublishedEvents();
+  const today = todayYmd();
+  return all
+    .filter((e) => e.event_type === type && isUpcoming(e, today))
+    .sort(sortUpcoming)
+    .slice(0, limit);
+}
+
 export async function getEventBySlug(slug: string): Promise<ClubEventRow | null> {
   try {
     const supabase = createClient();

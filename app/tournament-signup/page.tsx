@@ -2,21 +2,33 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import RegistrationClosed from "@/components/RegistrationClosed";
+import TeamSignupForm, { type TournamentOption } from "@/components/TeamSignupForm";
 import { getRegistrationWindow } from "@/lib/getRegistrationWindow";
 import { isWindowOpen } from "@/lib/registrationWindows";
+import { getUpcomingEventsByType } from "@/lib/publicData";
+import { MAX_MEMBERS, MIN_MEMBERS } from "@/lib/teams";
 
 export const metadata: Metadata = {
   title: "Đăng ký giải 3x3 — IU Basketball Club",
-  description: "Đăng ký đội tham gia giải bóng rổ 3x3 của CLB Bóng rổ IU.",
+  description:
+    "Đăng ký đội tham gia giải bóng rổ 3x3 của CLB Bóng rổ IU — Trường Đại học Quốc tế, ĐHQG TP.HCM.",
 };
 
+// Trạng thái đợt đổi theo thời gian nên không được cache tĩnh.
 export const dynamic = "force-dynamic";
-
-const FANPAGE = "https://www.facebook.com/IUBASKETBALLL";
 
 export default async function TournamentSignupPage() {
   const window = await getRegistrationWindow("tournament");
   const open = isWindowOpen(window);
+
+  // Chỉ tải danh sách giải khi đợt đang mở — form đóng thì không cần.
+  const tournaments: TournamentOption[] = open
+    ? (await getUpcomingEventsByType("tournament")).map((e) => ({
+        id: e.id,
+        title: e.title,
+        event_date: e.event_date,
+      }))
+    : [];
 
   return (
     <>
@@ -30,29 +42,15 @@ export default async function TournamentSignupPage() {
             {open ? (
               <>
                 <p className="section__lede">
-                  Đăng ký đội tham gia giải 3x3 của CLB Bóng rổ IU.
+                  Đăng ký đội tham gia giải 3x3 của CLB Bóng rổ IU. Mỗi đội gồm{" "}
+                  {MIN_MEMBERS}–{MAX_MEMBERS} vận động viên, trong đó có một đội trưởng
+                  đứng ra liên hệ với ban tổ chức.
                 </p>
-                {window?.title && (
-                  <p className="batch-chip mono">Đợt: {window.title}</p>
+                {window?.title && <p className="batch-chip mono">Đợt: {window.title}</p>}
+                {tournaments.length === 1 && (
+                  <p className="batch-chip mono">Giải: {tournaments[0].title}</p>
                 )}
-                {/*
-                  Form đăng ký đội (tên đội, đội trưởng, 3-5 thành viên) là hạng mục
-                  riêng trong ROADMAP Giai đoạn 5 — cần bảng teams + team_members.
-                  Trong lúc chờ, đợt mở sẽ dẫn người dùng qua fanpage.
-                */}
-                <div className="form-card form-done">
-                  <h2>Đợt đăng ký đang mở</h2>
-                  <p>
-                    Form đăng ký đội đang được hoàn thiện. Trong thời gian này, vui lòng
-                    liên hệ ban điều hành qua fanpage để đăng ký đội của bạn.
-                  </p>
-                  <div className="form-done__actions">
-                    <a href={FANPAGE} target="_blank" rel="noopener" className="btn btn--solid btn--lg">
-                      Đăng ký qua fanpage
-                    </a>
-                    <a href="/" className="btn btn--ghost btn--lg">Về trang chủ</a>
-                  </div>
-                </div>
+                <TeamSignupForm tournaments={tournaments} />
               </>
             ) : (
               <RegistrationClosed type="tournament" window={window} />

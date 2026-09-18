@@ -77,6 +77,9 @@ export default async function DashboardPage() {
                   <a href="/dashboard/recruits" className="btn btn--ghost">
                     Xem đơn tuyển quân
                   </a>
+                  <a href="/dashboard/teams" className="btn btn--ghost">
+                    Đội đăng ký giải
+                  </a>
                   <a href="/dashboard/settings" className="btn btn--ghost">
                     Cài đặt đợt đăng ký
                   </a>
